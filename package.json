@@ -1,0 +1,25 @@
+{
+
+    "name": "Lol Bot",
+  
+    "description": "Example",
+  
+    "version": "1.0.0",
+  
+    "main": "lol_bot.js",
+  
+    "scripts": {
+  
+      "start": "node lol_bot.js"
+  
+    },
+  
+    "dependencies": {
+  
+      "discord.js": "12.2.0",
+  
+      "node-fetch": "2.6.0"
+  
+    }
+  
+  }
