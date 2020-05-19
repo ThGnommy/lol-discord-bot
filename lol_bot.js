@@ -11,41 +11,21 @@ const apEnd = '```'
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-
 })
 
 client.on('message', (msg) => {
-    if(msg.author === client.user)
-    {
-        return
-    }
 
-    if(msg.content === msg.content) {
+    if(msg.author === client.user) { return; }
+
+    if(msg.content) {
         
         if(msg.content.includes("!summoner ")) {
             msg.content = msg.content.substr(10)
             GetSummonerIDByName(msg, msg.content)
         }
+
     }
 });
-
-const ProcessedCommand = (msg) => {
-    let fullCommand = msg.content.substr(4) // Remove the leading exclamation mark
-    let splitCommand = fullCommand.split(" ") // Split the message up in to pieces for each space
-    let primaryCommand = splitCommand[0] // The first word directly after the exclamation is the command
-    let arguments = splitCommand.slice(1) // All other words are arguments/parameters/options for the command
-
-    console.log("Command received: " + primaryCommand)
-    console.log("Arguments: " + arguments) // There may not be any arguments
-
-    if (primaryCommand == "help") {
-        helpCommand(arguments, msg)
-    } else if (primaryCommand === "multiply") {
-        multiplyCommand(arguments, msg)
-    } else {
-        msg.channel.send("I don't understand the command. Try `!help` or `!multiply`")
-    }
-}
 
 const GetSummonerIDByName = (msg, summonerName) => {
 
