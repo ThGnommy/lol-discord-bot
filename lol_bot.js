@@ -105,6 +105,7 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
 
                 if(key === 'leagueId' || 
                     key === 'summonerId' ||
+                    key === 'summonerName' ||
                     key === 'veteran' ||
                     key === 'freshBlood') {
                         continue;
@@ -118,6 +119,7 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
 
                 if(key === 'leagueId' || 
                     key === 'summonerId' ||
+                    key === 'summonerName' ||
                     key === 'veteran' ||
                     key === 'freshBlood' ||
                     key === 'miniSeries') {
@@ -127,10 +129,14 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
                     }
             } 
 
+            generalInfo.push(`+ SummonerName: ${data[0].summonerName}`)
+            generalInfo.push(`+ SummonerLevel: ${summonerLevel}`)
+
+            let endGeneralInfo = `${apDiff}${generalInfo.join('\n')}${apEnd}`
             let endSolo = `${apFix}${solo.join('\n')}${apEnd}`
             let endFlex = `${apFix}${flex.join('\n')}${apEnd}`
 
-            msg.channel.send(header + endSolo + endFlex)
+            msg.channel.send(header + endGeneralInfo + endSolo + endFlex)
 
         }
 
