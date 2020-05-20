@@ -2,6 +2,7 @@ const { Client } = require('discord.js');
 const client = new Client();
 const fetch = require('node-fetch');
 
+
 let SUMMONER_ID = ''
 let SUMMONER_LEVEL = ''
 let SUMMONER_NAME = ''
@@ -25,6 +26,10 @@ client.on('message', (msg) => {
             msg.content = msg.content.substr(10)
             GetSummonerIDByName(msg, msg.content)
         }
+    }
+
+    if(msg.content === 'json') {
+        GetDataDragonJSON(msg);
     }
 });
 
@@ -82,7 +87,8 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
                     key === 'summonerName' ||
                     key === 'summonerId' ||
                     key === 'veteran' ||
-                    key === 'freshBlood') {
+                    key === 'freshBlood' ||
+                    key === 'miniSeries') {
                         continue;
                     } else {
                         solo.push(elements.charAt(0).toUpperCase() + elements.slice(1))
@@ -107,7 +113,8 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
                     key === 'summonerId' ||
                     key === 'summonerName' ||
                     key === 'veteran' ||
-                    key === 'freshBlood') {
+                    key === 'freshBlood' ||
+                    key === 'miniSeries') {
                         continue;
                     } else {
                         solo.push(elements.charAt(0).toUpperCase() + elements.slice(1))
@@ -137,7 +144,6 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
             let endFlex = `${apFix}${flex.join('\n')}${apEnd}`
 
             msg.channel.send(header + endGeneralInfo + endSolo + endFlex)
-
         }
 
         else if(data.length === 0) {
@@ -156,15 +162,6 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
         }
         
     }).catch((error) => { return console.log(error) })
-}
-
-const GetDaataDragonJSON = () => {
-    fetch('http://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json')
-    .then((resp) => {
-        return resp.json()
-    }).then((data) => {
-        console.log(data);
-    })
 }
 
 client.login(process.env.BOT_TOKEN);
