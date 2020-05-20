@@ -3,6 +3,8 @@ const client = new Client();
 const fetch = require('node-fetch');
 
 let SUMMONER_ID = ''
+let SUMMONER_LEVEL = ''
+let SUMMONER_NAME = ''
 
 const apFix = '```fix\n'
 const apDiff = '```diff\n'
@@ -42,12 +44,14 @@ const GetSummonerIDByName = (msg, summonerName) => {
             return resp.json()})
         .then(data => {
             SUMMONER_ID = data.id;
-            console.log(SUMMONER_ID)
-            GetSummonerStats(msg, SUMMONER_ID);
+            SUMMONER_LEVEL = data.summonerLevel;
+            SUMMONER_NAME = data.name;
+
+            GetSummonerStats(msg, SUMMONER_ID, SUMMONER_LEVEL, SUMMONER_NAME);
         }).catch((error) => { return console.log(error) })
 }
 
-const GetSummonerStats = (msg, summonerID) => {
+const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
 
     fetch(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerID}`, {
         method: 'GET',
@@ -63,6 +67,7 @@ const GetSummonerStats = (msg, summonerID) => {
         return resp.json()
     }).then(data => {
 
+        let generalInfo = []
         let flex = []
         let solo = []
 
@@ -74,6 +79,7 @@ const GetSummonerStats = (msg, summonerID) => {
                 let elements = `${key}: ${value}`
 
                 if(key === 'leagueId' || 
+                    key === 'summonerName' ||
                     key === 'summonerId' ||
                     key === 'veteran' ||
                     key === 'freshBlood') {
@@ -83,9 +89,13 @@ const GetSummonerStats = (msg, summonerID) => {
                     }
             }
 
-            let endSolo = `${apFix}${solo.join('\n')}${apEnd}`
+            generalInfo.push(`+ SummonerName: ${data[0].summonerName}`)
+            generalInfo.push(`+ SummonerLevel: ${summonerLevel}`)
 
-            msg.channel.send(header + endSolo)
+            let endSolo = `${apFix}${solo.join('\n')}${apEnd}`
+            let endGeneralInfo = `${apDiff}${generalInfo.join('\n')}${apEnd}`
+
+            msg.channel.send(header + endGeneralInfo + endSolo)
         }
         
         else if (data.length === 2) {
@@ -124,13 +134,19 @@ const GetSummonerStats = (msg, summonerID) => {
 
         }
 
-        else if(data.length === 0) { 
-            let notFound = `${apDiff}- No placement was found ${apEnd}`
-            msg.channel.send(notFound)
+        else if(data.length === 0) {
+
+            generalInfo.push(`+ SummonerName: ${summonerName}`)
+            generalInfo.push(`+ SummonerLevel: ${summonerLevel}`)
+
+            let endGeneralInfo = `${apDiff}${generalInfo.join('\n')}${apEnd}`
+
+            let noPlacementFound = `${apDiff}- No placement was found ${apEnd}`
+            msg.channel.send(header + endGeneralInfo + noPlacementFound)
         }
         else if (typeof data[0] === 'undefined') {
             let notFound = `${apDiff}- Summoner not found ${apEnd}`
-            msg.channel.send(notFound)
+            msg.channel.send(header + notFound)
         }
         
     }).catch((error) => { return console.log(error) })
