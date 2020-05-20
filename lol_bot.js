@@ -23,7 +23,6 @@ client.on('message', (msg) => {
             msg.content = msg.content.substr(10)
             GetSummonerIDByName(msg, msg.content)
         }
-
     }
 });
 
@@ -37,7 +36,7 @@ const GetSummonerIDByName = (msg, summonerName) => {
             "Accept-Language": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
             "Origin": "https://developer.riotgames.com",
-            "X-Riot-Token": "RGAPI-0d8c4a08-f307-453b-a0b8-15c39c4a2c85"
+            "X-Riot-Token": "RGAPI-e6e8c72a-49a8-4b49-b833-68ed024394f5"
         }})
         .then(resp => {
             return resp.json()})
@@ -58,7 +57,7 @@ const GetSummonerStats = (msg, summonerID) => {
             "Accept-Language": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
             "Origin": "https://developer.riotgames.com",
-            "X-Riot-Token": "RGAPI-0d8c4a08-f307-453b-a0b8-15c39c4a2c85"
+            "X-Riot-Token": "RGAPI-e6e8c72a-49a8-4b49-b833-68ed024394f5"
         }
     }).then(resp => {
         return resp.json()
@@ -135,6 +134,15 @@ const GetSummonerStats = (msg, summonerID) => {
         }
         
     }).catch((error) => { return console.log(error) })
+}
+
+const GetDaataDragonJSON = () => {
+    fetch('http://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json')
+    .then((resp) => {
+        return resp.json()
+    }).then((data) => {
+        console.log(data);
+    })
 }
 
 client.login(process.env.BOT_TOKEN);
