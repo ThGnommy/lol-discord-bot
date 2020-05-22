@@ -43,7 +43,7 @@ const GetSummonerIDByName = (msg, summonerName) => {
             "Accept-Language": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
             "Origin": "https://developer.riotgames.com",
-            "X-Riot-Token": "RGAPI-e6e8c72a-49a8-4b49-b833-68ed024394f5"
+            "X-Riot-Token": "RGAPI-5faa7ca0-7d25-442d-b1b3-a2a8e08f0254"
         }})
         .then(resp => {
             return resp.json()})
@@ -66,7 +66,7 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
             "Accept-Language": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
             "Origin": "https://developer.riotgames.com",
-            "X-Riot-Token": "RGAPI-e6e8c72a-49a8-4b49-b833-68ed024394f5"
+            "X-Riot-Token": "RGAPI-5faa7ca0-7d25-442d-b1b3-a2a8e08f0254"
         }
     }).then(resp => {
         return resp.json()
