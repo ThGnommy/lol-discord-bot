@@ -12,6 +12,11 @@ const apDiff = '```diff\n'
 const apIni = '```ini\n'
 const apEnd = '```'
 
+const emoji_win = '\:white_check_mark:'
+const emoji_lose = '\:x:'
+const emoji_none = '\:grey_question:'
+
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 })
@@ -28,8 +33,12 @@ client.on('message', (msg) => {
         }
     }
 
-    if(msg.content === 'json') {
-        GetDataDragonJSON(msg);
+    if(msg.content === 'emoji') {
+        // const mess = `${apFix} ${emoji_win} ${emoji_none} ${emoji_none} ${apEnd}`
+        // msg.channel.send(mess)
+        const ayy = client.emojis.find(emoji => emoji.name === "x");
+
+        msg.channel.send(apFix + ayy + apEnd)
     }
 });
 
@@ -43,7 +52,7 @@ const GetSummonerIDByName = (msg, summonerName) => {
             "Accept-Language": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
             "Origin": "https://developer.riotgames.com",
-            "X-Riot-Token": "RGAPI-5faa7ca0-7d25-442d-b1b3-a2a8e08f0254"
+            "X-Riot-Token": `${process.env.RIOT_TOKEN}`
         }})
         .then(resp => {
             return resp.json()})
@@ -66,7 +75,7 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
             "Accept-Language": "it,it-IT;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
             "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
             "Origin": "https://developer.riotgames.com",
-            "X-Riot-Token": "RGAPI-5faa7ca0-7d25-442d-b1b3-a2a8e08f0254"
+            "X-Riot-Token": `${process.env.RIOT_TOKEN}`
         }
     }).then(resp => {
         return resp.json()
@@ -87,8 +96,7 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
                     key === 'summonerName' ||
                     key === 'summonerId' ||
                     key === 'veteran' ||
-                    key === 'freshBlood' ||
-                    key === 'miniSeries') {
+                    key === 'freshBlood' /*|| key === 'miniSeries'*/) {
                         continue;
                     } else {
                         solo.push(elements.charAt(0).toUpperCase() + elements.slice(1))
@@ -113,8 +121,7 @@ const GetSummonerStats = (msg, summonerID, summonerLevel, summonerName) => {
                     key === 'summonerId' ||
                     key === 'summonerName' ||
                     key === 'veteran' ||
-                    key === 'freshBlood' ||
-                    key === 'miniSeries') {
+                    key === 'freshBlood' /*|| key === 'miniSeries'*/) {
                         continue;
                     } else {
                         solo.push(elements.charAt(0).toUpperCase() + elements.slice(1))
